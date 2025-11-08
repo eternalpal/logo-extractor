@@ -134,6 +134,134 @@ function extractLogos() {
     });
   });
   
+  // 新增：专门检查所有包含'logo'关键字的属性
+  try {
+    // 获取页面所有元素
+    const allElements = document.querySelectorAll('*');
+    allElements.forEach(element => {
+      // 检查元素的所有属性
+      const attributes = element.attributes;
+      for (let i = 0; i < attributes.length; i++) {
+        const attr = attributes[i];
+        const attrName = attr.name.toLowerCase();
+        const attrValue = attr.value;
+        
+        // 如果属性名包含'logo'关键字
+        if (attrName.includes('logo')) {
+          // 如果是src属性，直接添加图片
+          if (attrName === 'src' && attrValue) {
+            addLogoCandidate(attrValue, element.alt || 'logo-from-attr', 'attribute-src');
+          }
+          // 如果是data-*属性且值是图片URL
+          else if (attrName.startsWith('data-') && attrValue && 
+                  (attrValue.endsWith('.png') || attrValue.endsWith('.jpg') || 
+                   attrValue.endsWith('.jpeg') || attrValue.endsWith('.svg') || 
+                   attrValue.endsWith('.webp') || attrValue.startsWith('//') || 
+                   attrValue.startsWith('/'))) {
+            // 处理相对URL
+            let imageUrl = attrValue;
+            try {
+              if (imageUrl.startsWith('//')) {
+                imageUrl = window.location.protocol + imageUrl;
+              } else if (imageUrl.startsWith('/')) {
+                imageUrl = window.location.origin + imageUrl;
+              } else if (!imageUrl.startsWith('http') && !imageUrl.startsWith('data:')) {
+                // 处理相对路径
+                const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+                imageUrl = new URL(imageUrl, baseUrl).href;
+              }
+            } catch (urlError) {
+              // URL处理失败时保持原样
+              console.debug('URL处理失败:', urlError);
+            }
+            addLogoCandidate(imageUrl, 'logo-from-data-attr', 'attribute-data');
+          }
+          // 检查是否有背景图片
+          else {
+            const backgroundImage = window.getComputedStyle(element).backgroundImage;
+            if (backgroundImage && backgroundImage !== 'none') {
+              const matches = backgroundImage.match(/url\(['"]?([^'"]*(?:\.[^'")]+))['"]?\)/);
+              if (matches && matches[1]) {
+                // 解码URL并处理相对路径
+                let imageUrl = matches[1];
+                try {
+                  // 如果是相对路径，转换为绝对路径
+                  if (imageUrl.startsWith('//')) {
+                    imageUrl = window.location.protocol + imageUrl;
+                  } else if (imageUrl.startsWith('/')) {
+                    imageUrl = window.location.origin + imageUrl;
+                  } else if (!imageUrl.startsWith('http')) {
+                    // 处理相对路径
+                    const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+                    imageUrl = baseUrl + imageUrl;
+                  }
+                } catch (e) {
+                  // 如果URL处理失败，仍然尝试添加原始URL
+                  addLogoCandidate(matches[1], 'background-from-attr', 'attribute-background');
+                  return;
+                }
+                addLogoCandidate(imageUrl, 'background-from-attr', 'attribute-background');
+              }
+            }
+          }
+        }
+      }
+    });
+  } catch (e) {
+    // 忽略可能的查询错误
+    console.debug('属性检查错误:', e);
+  }
+  
+  // 新增：检查所有标签的class和id中包含'logo'的元素
+  try {
+    const logoElements = document.querySelectorAll('[class*="logo"], [id*="logo"]');
+    logoElements.forEach(element => {
+      // 如果是img标签且有src属性
+      if (element.tagName === 'IMG' && element.src) {
+        addLogoCandidate(element.src, element.alt || 'logo-from-class-id', 'class-id');
+      }
+      // 检查元素内的img子元素
+      else {
+        const imgChildren = element.querySelectorAll('img');
+        imgChildren.forEach(img => {
+          if (img.src) {
+            addLogoCandidate(img.src, img.alt || 'logo-from-class-id', 'class-id');
+          }
+        });
+      }
+      
+      // 检查背景图片
+      const backgroundImage = window.getComputedStyle(element).backgroundImage;
+      if (backgroundImage && backgroundImage !== 'none') {
+        const matches = backgroundImage.match(/url\(['"]?([^'"]*(?:\.[^'")]+))['"]?\)/);
+        if (matches && matches[1]) {
+          // 解码URL并处理相对路径
+          let imageUrl = matches[1];
+          try {
+            // 如果是相对路径，转换为绝对路径
+            if (imageUrl.startsWith('//')) {
+              imageUrl = window.location.protocol + imageUrl;
+            } else if (imageUrl.startsWith('/')) {
+              imageUrl = window.location.origin + imageUrl;
+            } else if (!imageUrl.startsWith('http')) {
+              // 处理相对路径
+              const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+              imageUrl = baseUrl + imageUrl;
+            }
+          } catch (e) {
+            // 如果URL处理失败，仍然尝试添加原始URL
+            addLogoCandidate(matches[1], 'background-from-class-id', 'class-id-background');
+            return;
+          }
+          addLogoCandidate(imageUrl, 'background-from-class-id', 'class-id-background');
+        }
+      }
+    });
+  } catch (e) {
+    // 忽略可能的查询错误
+    console.debug('Class/ID检查错误:', e);
+  }
+  
   // 新增：专门检查具有data-spm="top-logo"属性的元素及其子元素的背景图片
   try {
     const topLogoElements = document.querySelectorAll('[data-spm="top-logo"], [data-spm="top-logo"] *');
@@ -155,17 +283,19 @@ function extractLogos() {
               const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
               imageUrl = baseUrl + imageUrl;
             }
-            addLogoCandidate(imageUrl, 'top-logo-background', 'data-spm');
           } catch (e) {
             // 如果URL处理失败，仍然尝试添加原始URL
             addLogoCandidate(matches[1], 'top-logo-background', 'data-spm');
+            return;
           }
+          addLogoCandidate(imageUrl, 'top-logo-background', 'data-spm');
         }
       }
     });
   } catch (e) {
     // 忽略可能的查询错误
   }
+  
   // 方法2：查找可能的favicon - 这个可以在整个文档中查找，因为favicon通常在head中
   const favicons = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]');
   favicons.forEach(favicon => {
