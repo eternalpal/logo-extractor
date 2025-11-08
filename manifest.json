@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Logo Extractor",
+  "description": "提取并下载当前网站的Logo图片",
+  "version": "1.0",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "downloads"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  // 移除SVG图标引用
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["bg.jpg"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

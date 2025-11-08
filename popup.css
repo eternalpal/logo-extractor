@@ -1,0 +1,255 @@
+/* 基础样式 - 暗色主题 */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  margin: 0;
+  padding: 10px;
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  width: 400px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+/* 标题样式 - 暗色主题 */
+h1 {
+  font-size: 18px;
+  color: #ffffff;
+  margin: 0 0 15px 0;
+  text-align: center;
+}
+
+/* 状态信息 - 暗色主题 */
+.status {
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.status.loading {
+  background-color: #2c3e50;
+  color: #3498db;
+}
+
+.status.error {
+  background-color: #4a2323;
+  color: #e74c3c;
+}
+
+.status.success {
+  background-color: #234a23;
+  color: #27ae60;
+}
+
+/* Logo列表容器 */
+#logo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* 单个Logo项 - 暗色主题 */
+.logo-item {
+  background-color: #2d2d2d;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.logo-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Logo预览区域 - 使用指定的bg.jpg作为棋盘背景 */
+.logo-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  /* 使用bg.jpg作为棋盘背景 */
+  background-color: #1e1e1e;
+  background-image: url('bg.jpg');
+  background-repeat: repeat;
+  border-radius: 6px;
+  min-height: 120px;
+  justify-content: center;
+  border: 1px solid #666;
+}
+
+/* Logo图片样式 */
+.logo-image {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+/* SVG容器样式 */
+.logo-svg-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+
+/* SVG元素样式 - 重要的SVG专用样式 */
+.logo-svg {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  background-color: transparent;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* 直接SVG标记的特殊样式 */
+.logo-svg[data-direct-svg="true"] {
+  outline: 2px solid #4caf50;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* 尺寸信息 - 隐藏 */
+.logo-size {
+  display: none;
+}
+
+/* 类型和来源信息 - 隐藏 */
+.logo-info {
+  display: none;
+}
+
+/* 下载按钮容器 */
+.download-options {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+/* 下载按钮 - 暗色主题 */
+.download-btn {
+  padding: 8px 12px;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background-color: #3d3d3d;
+  color: #e0e0e0;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.download-btn:hover {
+  background-color: #4d4d4d;
+  border-color: #666;
+}
+
+.download-btn:active {
+  transform: scale(0.98);
+}
+
+/* 尺寸选择器 - 暗色主题 */
+.size-selector {
+  display: none;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 8px;
+  background-color: #3a3a3a;
+  border-radius: 4px;
+}
+
+.size-selector.active {
+  display: flex;
+}
+
+.size-option {
+  padding: 6px 10px;
+  border: 1px solid #555;
+  border-radius: 3px;
+  background-color: #3d3d3d;
+  color: #e0e0e0;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.size-option:hover {
+  background-color: #4d4d4d;
+  border-color: #666;
+}
+
+.size-option:active {
+  background-color: #e0e0e0;
+}
+
+/* 格式选择按钮样式 */
+.format-option {
+  padding: 6px 12px;
+  border: 1px solid #555;
+  border-radius: 3px;
+  background-color: #3d3d3d;
+  color: #e0e0e0;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.format-option:hover {
+  background-color: #4d4d4d;
+  border-color: #666;
+}
+
+.format-option.selected {
+  background-color: #357abd;
+  border-color: #4a90e2;
+  color: white;
+}
+
+/* 无结果时的提示 */
+.no-results {
+  text-align: center;
+  color: #666;
+  padding: 20px;
+  font-style: italic;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 响应式调整 */
+@media (max-width: 420px) {
+  body {
+    width: 350px;
+    padding: 8px;
+  }
+  
+  .logo-preview {
+    min-height: 100px;
+  }
+  
+  .download-options {
+    flex-direction: column;
+  }
+}
