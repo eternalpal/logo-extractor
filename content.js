@@ -101,12 +101,29 @@ function extractLogos() {
             if (img) {
               addLogoCandidate(img.src, img.alt || 'logo', 'default');
             }
-            // 检查背景图片
+            // 增强背景图片检测逻辑
             const backgroundImage = window.getComputedStyle(element).backgroundImage;
             if (backgroundImage && backgroundImage !== 'none') {
-              const matches = backgroundImage.match(/url\(['"]?([^'"]*)['"]?\)/);
+              // 改进正则表达式以更好地匹配各种URL格式
+              const matches = backgroundImage.match(/url\(\s*['"]?([^'"\)]+)['"]?\s*\)/i);
               if (matches && matches[1]) {
-                addLogoCandidate(matches[1], 'background-logo', 'background');
+                let imageUrl = matches[1];
+                // 处理相对URL
+                try {
+                  if (imageUrl.startsWith('//')) {
+                    imageUrl = window.location.protocol + imageUrl;
+                  } else if (imageUrl.startsWith('/')) {
+                    imageUrl = window.location.origin + imageUrl;
+                  } else if (!imageUrl.startsWith('http') && !imageUrl.startsWith('data:')) {
+                    // 处理相对路径
+                    const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+                    imageUrl = new URL(imageUrl, baseUrl).href;
+                  }
+                } catch (urlError) {
+                  // URL处理失败时保持原样
+                  console.debug('URL处理失败:', urlError);
+                }
+                addLogoCandidate(imageUrl, 'background-logo', 'background');
               }
             }
           }
@@ -117,6 +134,38 @@ function extractLogos() {
     });
   });
   
+  // 新增：专门检查具有data-spm="top-logo"属性的元素及其子元素的背景图片
+  try {
+    const topLogoElements = document.querySelectorAll('[data-spm="top-logo"], [data-spm="top-logo"] *');
+    topLogoElements.forEach(element => {
+      const backgroundImage = window.getComputedStyle(element).backgroundImage;
+      if (backgroundImage && backgroundImage !== 'none') {
+        const matches = backgroundImage.match(/url\(['"]?([^'"]*(?:\.[^'")]+))['"]?\)/);
+        if (matches && matches[1]) {
+          // 解码URL并处理相对路径
+          let imageUrl = matches[1];
+          try {
+            // 如果是相对路径，转换为绝对路径
+            if (imageUrl.startsWith('//')) {
+              imageUrl = window.location.protocol + imageUrl;
+            } else if (imageUrl.startsWith('/')) {
+              imageUrl = window.location.origin + imageUrl;
+            } else if (!imageUrl.startsWith('http')) {
+              // 处理相对路径
+              const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+              imageUrl = baseUrl + imageUrl;
+            }
+            addLogoCandidate(imageUrl, 'top-logo-background', 'data-spm');
+          } catch (e) {
+            // 如果URL处理失败，仍然尝试添加原始URL
+            addLogoCandidate(matches[1], 'top-logo-background', 'data-spm');
+          }
+        }
+      }
+    });
+  } catch (e) {
+    // 忽略可能的查询错误
+  }
   // 方法2：查找可能的favicon - 这个可以在整个文档中查找，因为favicon通常在head中
   const favicons = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"], link[rel="apple-touch-icon"]');
   favicons.forEach(favicon => {
