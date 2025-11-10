@@ -79,6 +79,7 @@ logo-extractor/
 
 ### v1.3.1
 - **错误修复**：在 `content.js` 中添加了注入守卫，彻底解决了当用户多次点击插件图标时，因脚本重复注入而导致的 `SyntaxError: Identifier has already been declared` 控制台报错问题。
+- 添加插件使用、作者信息
 
 ### v1.3
 - **修复核心通信 Bug**：修正了 `popup.js` 和 `content.js` 之间的消息传递问题，确保点击插件图标能正确触发新的扫描。

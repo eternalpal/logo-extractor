@@ -5,19 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Logo Extractor</title>
   <link rel="stylesheet" href="popup.css">
-
 </head>
 <body>
-  <div class="header">
-    <h3>Logo Extractor</h3>
+  <!-- 主界面容器 -->
+  <div id="main-content">
+    <div class="header">
+      <h1>Logo Extractor</h1>
+      <!-- 新增：关于插件的链接 -->
+      <a href="#" id="about-link" class="about-link">关于插件</a>
+    </div>
+    
+    <div id="status" class="status loading">正在扫描页面中的Logo...</div>
+    
+    <div id="logo-list" class="logo-list"></div>
+    
+    <div id="no-logos" class="no-logos" style="display: none;">
+      未检测到Logo图片
+    </div>
   </div>
-  
-  <div id="status" class="status loading">正在扫描页面中的Logo...</div>
-  
-  <div id="logo-list" class="logo-list"></div>
-  
-  <div id="no-logos" class="no-logos" style="display: none;">
-    未检测到Logo图片
+
+  <!-- 新增：关于页面容器，默认隐藏 -->
+  <div id="about-section" class="about-section" style="display: none;">
+    <div class="header">
+      <h1>关于插件</h1>
+      <a href="#" id="close-about-link" class="about-link">返回</a>
+    </div>
+    <div class="about-content">
+      <h4>Logo Extractor V1.3</h4>
+      <p>一个用于从网页中提取Logo图片并下载的Chrome扩展。</p>
+      
+      <h4>使用说明</h4>
+      <ol class="instructions">
+        <li>访问任意网站</li>
+        <li>点击浏览器工具栏中的Logo Extractor图标</li>
+        <li>插件会自动扫描页面中的Logo</li>
+        <li>选择需要的Logo并点击下载按钮</li>
+        <li>可选择下载格式（PNG/JPG）和尺寸</li>
+      </ol>
+      
+      <p>使用过程中如遇到问题，欢迎联系作者沟通改进：</p>	  
+	  	<!-- 白色文本 + 灰色背景（避免白色背景下看不见） -->
+		<p style="background: #333; padding: 5px;">
+		  <a>微信：yhjbox66</a>
+		  <br>
+		  <a href="https://www.yhjbox.com" target="_blank" rel="noopener noreferrer" style="color: white;">
+			https://www.yhjbox.com
+		  </a>
+		</p>	  
+	</div>
   </div>
 
   <script src="popup.js"></script>

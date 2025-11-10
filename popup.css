@@ -253,3 +253,66 @@ h1 {
     flex-direction: column;
   }
 }
+
+/* --- 新增样式 --- */
+
+/* 头部 Flex 布局，用于对齐标题和链接 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px; /* 保持原有的间距 */
+}
+
+/* 移除h3原有的margin，由header统一管理 */
+h3 {
+  margin: 0;
+}
+
+/* “关于插件”链接样式 */
+.about-link {
+  font-size: 12px;
+  color: #a0a0a0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.about-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* 关于页面容器样式 */
+.about-section {
+  color: #e0e0e0;
+}
+
+.about-content {
+  padding: 0 5px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.about-content h4 {
+  font-size: 16px;
+  color: #ffffff;
+  margin-top: 15px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 4px;
+}
+
+.about-content p {
+  margin: 10px 0;
+}
+
+/* 使用说明列表样式 */
+.instructions {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.instructions li {
+  margin-bottom: 5px;
+}
