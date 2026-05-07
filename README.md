@@ -15,9 +15,9 @@
 ## 截图
 
 <p align="center">
-	<img src="Shots/shots01.png" alt="Logo Extractor Preview 01" style="height: 320px; margin-right: 12px;" />
-	<img src="Shots/shots02.png" alt="Logo Extractor Preview 02" style="height: 320px; margin-right: 12px;" />
-	<img src="Shots/shots03.png" alt="Logo Extractor Preview 03" style="height: 320px; margin-right: 12px;" />
+	<img src="Shots/Shots01.png" alt="Logo Extractor Preview 01" style="height: 320px; margin-right: 12px;" />
+	<img src="Shots/Shots02.png" alt="Logo Extractor Preview 02" style="height: 320px; margin-right: 12px;" />
+	<img src="Shots/Shots03.png" alt="Logo Extractor Preview 03" style="height: 320px; margin-right: 12px;" />
 </p>
 
 
