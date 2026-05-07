@@ -2,6 +2,7 @@
 
 一个用于从网页中提取Logo图片并下载的Chrome扩展。
 
+
 ## 功能特点
 
 - 自动扫描网页中的Logo图片
@@ -11,6 +12,15 @@
 - 简洁直观的用户界面
 - **稳定无错的脚本注入**，确保多次使用插件也不会产生控制台错误
 
+## 截图
+
+<p align="center">
+	<img src="Shots/shots01.png" alt="Logo Extractor Preview 01" style="height: 320px; margin-right: 12px;" />
+	<img src="Shots/shots02.png" alt="Logo Extractor Preview 02" style="height: 320px; margin-right: 12px;" />
+	<img src="Shots/shots03.png" alt="Logo Extractor Preview 03" style="height: 320px; margin-right: 12px;" />
+</p>
+
+
 ## 安装方法
 
 1. 打开Chrome浏览器
@@ -18,6 +28,8 @@
 3. 开启右上角的"开发者模式"
 4. 点击"加载已解压的扩展程序"
 5. 选择本项目文件夹
+
+
 
 ## 使用说明
 
@@ -41,6 +53,7 @@
 
 ### 文件结构
 
+```
 logo-extractor/
 ├── manifest.json      # 扩展配置文件
 ├── content.js         # 内容脚本
@@ -54,6 +67,7 @@ logo-extractor/
 │   └── icon128.png
 ├── bg.jpg             # 棋盘背景图
 └── README.md          # 说明文档
+```
 
 ## Logo识别算法
 
